@@ -1,0 +1,38 @@
+apply plugin: 'groovy'
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+//Create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Universal torrent site downloader',
+                   'Implementation-Version': '1.0',
+                   'Main-Class': 'main.Main'
+    }
+    baseName = project.name
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+    with jar
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.12'
+
+    compile 'org.gebish:geb-core:1.1.1'
+    compile 'org.seleniumhq.selenium:selenium-chrome-driver:3.4.0'
+    compile 'io.github.bonigarcia:webdrivermanager:1.7.1'
+
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+
+    compile 'com.beust:jcommander:1.72'
+
+    compile 'ch.qos.logback:logback-classic:1.1.7'
+
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+}

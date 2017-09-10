@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Torrent Site - Torrents list</title>
+
+    <script src="script.js"></script>
+</head>
+<body onload="registerVisitNumber()">
+    <div class="header">
+        <script>if (isLoggedIn()) writeLoggedInSection()</script>
+    </div>
+    <div class="main">
+        <ul class="torrent-list">
+            <li><a>Torrent 1</a></li>
+            <li><a>Torrent 2</a></li>
+            <li><a>Torrent 3</a></li>
+            <script>if (mustShowDesiredResult()) writeDesiredResult()</script>
+        </ul>
+    </div>
+</body>
+</html>
