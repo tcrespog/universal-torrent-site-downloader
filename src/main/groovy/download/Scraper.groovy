@@ -123,6 +123,7 @@ class Scraper {
         if (isMagnetLink) {
             torrentProvisionLink.attr('href')
         } else {
+            downloadedTorrentFileDetector.prepareToDownload()
             torrentProvisionLink.click()
             downloadedTorrentFileDetector.waitForTorrentFileDownload()
         }

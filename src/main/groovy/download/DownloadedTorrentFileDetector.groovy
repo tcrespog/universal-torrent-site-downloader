@@ -11,9 +11,12 @@ class DownloadedTorrentFileDetector {
 
     DownloadedTorrentFileDetector(String downloadDirectoryPath, Integer maxWaitingTimeToDownload) {
         this.downloadDirectoryPath = downloadDirectoryPath
-        this.fileListingSnapshot = new File(downloadDirectoryPath).listFiles().toList()
 
         this.maxWaitingTimeToDownload = maxWaitingTimeToDownload
+    }
+
+    void prepareToDownload() {
+        this.fileListingSnapshot = new File(downloadDirectoryPath).listFiles().toList()
     }
 
     String waitForTorrentFileDownload() {
