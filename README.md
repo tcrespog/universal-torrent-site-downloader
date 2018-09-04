@@ -14,7 +14,7 @@ In order to run the tool the following software is required:
 - [JRE 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html).
 - [Chrome Browser](https://www.google.com/chrome/index.html).
 - A supported torrent client, currently:
-    - [Transmission](https://transmissionbt.com/): through transmission-remote and [RPC](https://trac.transmissionbt.com/browser/trunk/extras/rpc-spec.txt).
+    - [Transmission](https://transmissionbt.com/): through [RPC](https://github.com/transmission/transmission/blob/master/extras/rpc-spec.txt).
     - [qBittorrent](https://www.qbittorrent.org/): through [Web UI](https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-Documentation).
 
 ## How does it work?
