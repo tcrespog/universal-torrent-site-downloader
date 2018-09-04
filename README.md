@@ -45,7 +45,7 @@ Note that the proper functioning relies on this generic structure that torrent w
 
 This is an example command line constructed for a real torrent site:
 ```shell
-java -jar universal-torrent-site-scraper-downloader.jar --torrentSiteUsername 'username' --torrentSitePassword 'password'                                                        \
+java -Dheadless=true -jar universal-torrent-site-scraper-downloader.jar --torrentSiteUsername 'username' --torrentSitePassword 'password'                                        \
      --loginPageUrl 'https://archive.org/account/login.php' --usernameInputSelector '#username' --passwordInputSelector '#password' --loggedInIndicatorSelector '.mypic.ghost80' \
      --torrentListUrl 'https://archive.org/search.php?query=a%20corny%20concerto' --torrentLinksSelector '.C234 a'                                                               \
      --torrentProvisionSelector 'a[href$=".torrent"]'                                                                                                                            \

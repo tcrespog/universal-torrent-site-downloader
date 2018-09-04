@@ -19,9 +19,9 @@ environments {
             ChromeOptions options = new ChromeOptions()
 
             options.addArguments('window-size=1200,1000')
-            //TODO downloading files doesn't work headlessly. In Chrome 62 support will be added: https://bugs.chromium.org/p/chromium/issues/detail?id=696481#c39
+
             if (System.getProperty('headless') == 'true') {
-                options.addArguments('headless', 'disable-gpu')
+                options.addArguments('--headless')
             }
 
             if (System.getProperty('disableJavaScript') == 'true') {
