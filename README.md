@@ -139,15 +139,13 @@ The tool is written using [Groovy](http://groovy-lang.org/) and uses [Gradle](ht
 
 ### Testing
 
-A suite of unit tests is provided. In order to run the tests, which rely on the existence of an available torrent client of each kind, Docker is a good option to provide the required environments ready for testing:
-
-- Docker containers
-    - [linuxserver/transmission](https://hub.docker.com/r/linuxserver/transmission/)
-    - [linuxserver/qbittorrent](https://hub.docker.com/r/linuxserver/qbittorrent/)
-
-Run all tests with the task:
-
+A suite of unit and integration tests is provided. [Chrome](https://www.google.com/chrome/index.html) and [Docker](https://www.docker.com/) must be present in the system to run the suite. Run all tests with the task:
+                                                                                                                                                                                            
 `./gradlew :cleanTest :test --tests *`
+
+The suite makes use of [Tescontainers](https://www.testcontainers.org/) in order to set up Docker containers of the supported torrent clients ready for testing.
+
+
 
 ### Building
 

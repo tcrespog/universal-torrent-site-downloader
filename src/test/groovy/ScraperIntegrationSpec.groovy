@@ -2,7 +2,7 @@ import download.Scraper
 import spock.lang.Specification
 import utils.Util
 
-class ScraperUnitSpec extends Specification {
+class ScraperIntegrationSpec extends Specification {
 
     Scraper scraper
 

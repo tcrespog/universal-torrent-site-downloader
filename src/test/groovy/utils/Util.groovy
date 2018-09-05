@@ -1,9 +1,8 @@
 package utils
 
-import java.util.regex.Matcher
+import com.sun.security.auth.module.UnixSystem
 
 class Util {
-
 
     final static File TORRENT_FILE = new File('src/test/resources/Night.Of.The.Living.Dead.1968.720p.BRRip.x264-x0r.torrent')
     final static File DOWNLOAD_DIRECTORY = new File('src/test/resources/fakeDownloadDirectory')
@@ -14,6 +13,18 @@ class Util {
 
     static File getDownloadedTorrentFile() {
         new File(BROWSER_DOWNLOAD_DIRECTORY, TORRENT_FILE.name)
+    }
+
+    static Long getSystemUserUid() {
+        UnixSystem system = new UnixSystem()
+
+        system.uid
+    }
+
+    static Long getSystemUserGid() {
+        UnixSystem system = new UnixSystem()
+
+        system.gid
     }
 
 }

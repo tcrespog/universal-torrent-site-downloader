@@ -49,7 +49,7 @@ class TransmissionClientManager extends AbstractTorrentClientManager {
     }
 
     boolean addTorrentToClient(String torrentUri) {
-        Map requestContent = [method: 'torrent-add', arguments: [filename: torrentUri]]
+        Map requestContent = (torrentUri.startsWith('magnet:?')) ? [method: 'torrent-add', arguments: [filename: torrentUri]] : [method: 'torrent-add', arguments: [metainfo: Base64.getEncoder().encodeToString(new File(torrentUri).bytes)]]
 
         log.info("Add torrent using the request ${requestContent}")
 

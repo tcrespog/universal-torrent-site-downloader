@@ -1,11 +1,28 @@
 import main.Runner
+import org.testcontainers.containers.BindMode
+import org.testcontainers.containers.GenericContainer
+import org.testcontainers.containers.wait.strategy.Wait
+import org.testcontainers.spock.Testcontainers
+import spock.lang.Shared
 import spock.lang.Specification
+import spock.lang.Stepwise
 import utils.Util
 
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
-class RunnerUnitSpec extends Specification {
+@Testcontainers
+@Stepwise
+class RunnerIntegrationSpec extends Specification {
+
+    static final String VERSION_TAG = '140' //Transmission 2.94
+
+    @Shared
+    GenericContainer transmissionContainer = new GenericContainer("linuxserver/transmission:${VERSION_TAG}")
+            .withExposedPorts(9091)
+            .withClasspathResourceMapping(Util.DOWNLOAD_DIRECTORY.name, '/downloads', BindMode.READ_WRITE)
+            .withEnv([PUID: Util.getSystemUserUid().toString(), PGID: Util.getSystemUserGid().toString()])
+            .waitingFor(Wait.forHttp(''))
 
 
     void "execute the complete set of steps in order to obtain a torrent and download it in the torrent client"() {
@@ -22,7 +39,7 @@ class RunnerUnitSpec extends Specification {
                 downloadDirPath: Util.BROWSER_DOWNLOAD_DIRECTORY.absolutePath, maxTimeToDownload: 2000,
                 retryTime: 5,
 
-                torrentClient: 'transmission'
+                torrentClient: 'transmission', torrentServerPort: transmissionContainer.getMappedPort(9091)
         )
 
         when: 'execute the complete process'
@@ -50,7 +67,7 @@ class RunnerUnitSpec extends Specification {
                 torrentSiteUsername: 'username', torrentSitePassword: 'password',
                 coincidences: ['torrent', 'you', 'are', 'looking'],
                 retryTime: 5,
-                torrentClient: 'transmission'
+                torrentClient: 'transmission', torrentServerPort: transmissionContainer.getMappedPort(9091)
         )
 
         when: 'execute the complete process'
@@ -79,7 +96,7 @@ class RunnerUnitSpec extends Specification {
                 maxTimeToDownload: 2000,
                 isWaitUntilTorrentCompletedEnabled: false,
 
-                torrentClient: 'transmission'
+                torrentClient: 'transmission', torrentServerPort: transmissionContainer.getMappedPort(9091)
         )
 
         when: 'execute the complete process'
@@ -125,7 +142,7 @@ class RunnerUnitSpec extends Specification {
                 retryTime: 5,
                 maxTimeToDownload: 2000,
 
-                torrentClient: 'transmission'
+                torrentClient: 'transmission', torrentServerPort: transmissionContainer.getMappedPort(9091)
         )
 
         and: 'set the system property which dictates that JavaScript is disabled'

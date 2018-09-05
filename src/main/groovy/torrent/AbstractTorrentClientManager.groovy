@@ -1,6 +1,5 @@
 package torrent
 
-//TODO Add support for multiple torrent clients, similar to: https://github.com/SickRage/SickRage/tree/72f937b3667166801ff595ea674a7877dd8b67cd/sickbeard/clients
 abstract class AbstractTorrentClientManager {
 
     String host
