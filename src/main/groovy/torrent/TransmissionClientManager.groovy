@@ -100,6 +100,10 @@ class TransmissionClientManager extends AbstractTorrentClientManager {
         while (!requestPerformed) {
             response = httpClient.newCall(requestBuilder.build()).execute()
             requestPerformed = verifyTransmissionSessionIdStatus(response, requestBuilder)
+
+            if (!requestPerformed) {
+                response.close()
+            }
         }
 
         response
@@ -119,9 +123,20 @@ class TransmissionClientManager extends AbstractTorrentClientManager {
     boolean removeTorrentFromClient() {
         Map requestContent = [method: 'torrent-remove', arguments: [ids: [downloadingTorrentId.toInteger()], 'delete-local-data': true]]
 
-        Response response = performRequest(requestContent)
+        Response response
+        try {
+            response = performRequest(requestContent)
 
-        (response.code() == 200)
+            return (response.code() == 200)
+        } catch (e) {
+            log.error("An error occurred. Exception: ${e.message}")
+
+            return false
+        } finally {
+            response?.close()
+        }
+
+
     }
 
 }

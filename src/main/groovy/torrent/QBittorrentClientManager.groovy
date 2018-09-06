@@ -45,20 +45,25 @@ class QBittorrentClientManager extends AbstractTorrentClientManager {
     }
 
     boolean addTorrentToClient(String torrentUri) {
-        if (torrentUri.startsWith('magnet:')) {
-            addMagnet(torrentUri)
-        } else {
-            uploadTorrentFile(torrentUri)
+        Response response
+        try {
+            response = torrentUri.startsWith('magnet:') ? addMagnet(torrentUri) : uploadTorrentFile(torrentUri)
+
+            //Wait a prudential time to set the id, sometimes the immediate request doesn't work properly
+            sleep(500)
+            setAddedTorrentId()
+
+            (downloadingTorrentId != null)
+        } catch (e) {
+            log.error("An error occurred. Exception: ${e.message}")
+            return false
+        } finally {
+            response?.close()
         }
 
-        //Wait a prudential time to set the id, sometimes the immediate request doesn't work properly
-        sleep(500)
-        setAddedTorrentId()
-
-        (downloadingTorrentId != null)
     }
 
-    void addMagnet(String torrentUri) {
+    Response addMagnet(String torrentUri) {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart('urls', torrentUri)
@@ -73,7 +78,7 @@ class QBittorrentClientManager extends AbstractTorrentClientManager {
         performRequest(requestBuilder)
     }
 
-    void uploadTorrentFile(String torrentFilePath) {
+    Response uploadTorrentFile(String torrentFilePath) {
         File torrentFile = new File(torrentFilePath)
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -97,6 +102,10 @@ class QBittorrentClientManager extends AbstractTorrentClientManager {
         while (!requestPerformed) {
             response = httpClient.newCall(requestBuilder.build()).execute()
             requestPerformed = verifyIfLoggedIn(response, requestBuilder)
+
+            if (!requestPerformed) {
+                response.close()
+            }
         }
 
         response
@@ -128,10 +137,17 @@ class QBittorrentClientManager extends AbstractTorrentClientManager {
     }
 
     void setAddedTorrentId() {
-        Response response = makeListTorrentsRequest()
-        List torrentsInfo = new JsonSlurper().parseText(response.body().string()) as List
+        Response response
+        try {
+            response = makeListTorrentsRequest()
+            List torrentsInfo = new JsonSlurper().parseText(response.body().string()) as List
 
-        downloadingTorrentId = torrentsInfo[0]?.hash
+            downloadingTorrentId = torrentsInfo[0]?.hash
+        } catch (e) {
+            log.error("An error occurred. Exception: ${e.message}")
+        } finally {
+            response?.close()
+        }
     }
 
     Response makeListTorrentsRequest() {
@@ -143,12 +159,22 @@ class QBittorrentClientManager extends AbstractTorrentClientManager {
     }
 
     int getTorrentCompletionPercentage() {
-        Response response = makeListTorrentsRequest()
-        List torrentsInfo = new JsonSlurper().parseText(response.body().string()) as List
+        Response response
+        try {
+            response = makeListTorrentsRequest()
+            List torrentsInfo = new JsonSlurper().parseText(response.body().string()) as List
 
-        double percentage = torrentsInfo.find { it.hash == downloadingTorrentId }.progress
+            double percentage = torrentsInfo.find { it.hash == downloadingTorrentId }.progress
 
-        (percentage * 100).toInteger()
+            return (percentage * 100).toInteger()
+        } catch (e) {
+            log.error("An error occurred. Exception: ${e.message}")
+
+            return 0
+        } finally {
+            response?.close()
+        }
+
     }
 
     boolean removeTorrentFromClient() {
@@ -157,8 +183,17 @@ class QBittorrentClientManager extends AbstractTorrentClientManager {
                 .url("${WEB_URL}/command/deletePerm")
                 .post(body)
 
-        Response response = performRequest(requestBuilder)
+        Response response
+        try {
+            response = performRequest(requestBuilder)
 
-        (response.code() == 200)
+            return (response.code() == 200)
+        } catch (e) {
+            log.error("An error occurred. Exception: ${e.message}")
+
+            return false
+        } finally {
+            response?.close()
+        }
     }
 }
