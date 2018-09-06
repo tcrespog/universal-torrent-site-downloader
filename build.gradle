@@ -22,17 +22,17 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.12'
+    compile 'org.codehaus.groovy:groovy-all:2.4.15'
 
-    compile 'org.gebish:geb-core:1.1.1'
-    compile 'org.seleniumhq.selenium:selenium-chrome-driver:3.4.0'
-    compile 'io.github.bonigarcia:webdrivermanager:1.7.1'
+    compile 'org.gebish:geb-core:2.2'
+    compile 'org.seleniumhq.selenium:selenium-chrome-driver:3.14.0'
+    compile 'io.github.bonigarcia:webdrivermanager:3.0.0'
 
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    compile 'com.squareup.okhttp3:okhttp:3.11.0'
 
     compile 'com.beust:jcommander:1.72'
 
-    compile 'ch.qos.logback:logback-classic:1.1.7'
+    compile 'ch.qos.logback:logback-classic:1.2.3'
 
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
     testCompile 'org.testcontainers:testcontainers:1.8.3'

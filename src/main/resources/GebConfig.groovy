@@ -1,4 +1,4 @@
-import io.github.bonigarcia.wdm.ChromeDriverManager
+import io.github.bonigarcia.wdm.WebDriverManager
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.remote.DesiredCapabilities
@@ -13,7 +13,7 @@ waiting {
 environments {
 
     chrome {
-        ChromeDriverManager.getInstance().setup()
+        WebDriverManager.chromedriver().setup()
 
         driver = {
             ChromeOptions options = new ChromeOptions()
