@@ -28,10 +28,7 @@ environments {
                 options.setExperimentalOption('prefs',['profile.managed_default_content_settings.javascript': 2])
             }
 
-            DesiredCapabilities capabilities = DesiredCapabilities.chrome()
-            capabilities.setCapability(ChromeOptions.CAPABILITY, options)
-
-            new ChromeDriver(capabilities)
+            new ChromeDriver(options)
         }
     }
 

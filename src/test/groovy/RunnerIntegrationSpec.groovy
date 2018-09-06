@@ -80,6 +80,34 @@ class RunnerIntegrationSpec extends Specification {
         runner.torrentClientManager.removeTorrentFromClient()
     }
 
+    void "execute the complete set of steps in order to obtain a torrent magnet using a headless browser and download it in the torrent client"() {
+        given: 'a runner pointing to web page with torrent magent'
+        Runner runner = new Runner(
+                loginPageAddress: "file://${Util.OFFLINE_WEB_DIRECTORY.absolutePath}/login.html",
+                usernameInputSelector: 'input[name="username"]', passwordInputSelector: 'input[name="password"]',
+                loggedInIndicatorSelector: '.logged-indicator',
+                torrentListUrl: "file://${Util.OFFLINE_WEB_DIRECTORY.absolutePath}/list.html", torrentLinksSelector: '.torrent-list a',
+                isMagnetLink: true, torrentProvisionSelector: '#magnet', sayThanksSelector: '#thanks',
+                torrentSiteUsername: 'username', torrentSitePassword: 'password',
+                coincidences: ['torrent', 'you', 'are', 'looking'],
+                retryTime: 5,
+                torrentClient: 'transmission', torrentServerPort: transmissionContainer.getMappedPort(9091)
+        )
+
+        and: 'set the system property which dictates that the browser is headless'
+        System.setProperty('headless', 'true')
+
+        when: 'execute the complete process'
+        runner.run()
+
+        then: 'the torrent was added to the torrent client'
+        runner.torrentClientManager.downloadingTorrentId
+
+        cleanup: 'delete the torrent from the torrent client and restore the system property'
+        runner.torrentClientManager.removeTorrentFromClient()
+        System.clearProperty('headless')
+    }
+
     void "execute the complete set of steps in order to obtain a torrent and download, but give a wrong selector for the scraper"() {
         given: 'a runner pointing to a web page with a wrong selector'
         Runner runner = new Runner(
