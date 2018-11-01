@@ -111,6 +111,8 @@ class Scraper {
         Navigator torrentDetailLink = torrentList.find { Navigator torrentDetail ->
             String title = (isCaseSensitive) ? torrentDetail.text() : torrentDetail.text().toLowerCase()
 
+            log.debug("Searching for coincidences on title: ${title}")
+
             coincidences.every { String coincidence -> title.contains(coincidence) }
         }
 
