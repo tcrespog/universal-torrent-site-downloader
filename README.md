@@ -119,7 +119,9 @@ java -jar universal-torrent-site-scraper-downloader.jar --help
 
 Aside from the options, the tool accepts some JVM system properties to control browser related aspects:
 
+- `-Dheadless=true` runs the browser in headless mode (no GUI).
 - `-DdisableJavaScript=true` disables JavaScript in the browser, useful for websites which show popups that may break the process.
+- `-DlogLevel=DEBUG` specifies the log output [level](https://logback.qos.ch/manual/architecture.html#effectiveLevel). INFO by default. 
 - [Web driver manager properties](https://github.com/bonigarcia/webdrivermanager#configuration):
     - `-Dwdm.chromeDriverVersion=2.25` specifies a specific the [Chrome Driver](https://sites.google.com/a/chromium.org/chromedriver/downloads) version to download.
     - `-Dwdm.targetPath='/my/custom/path/to/driver/binaries'` specifies the path where the driver will be downloaded
