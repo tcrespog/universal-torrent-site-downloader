@@ -8,7 +8,7 @@ targetCompatibility = 1.8
 task fatJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'Universal torrent site downloader',
-                   'Implementation-Version': '1.4.0',
+                   'Implementation-Version': '1.5.0',
                    'Main-Class': 'main.Main'
     }
     baseName = project.name
