@@ -30,6 +30,8 @@ class Runner {
     }
 
     boolean run() {
+        finishScrapingOnGracefulShutdown()
+
         Map supportInfo = torrentClientManager.isTorrentClientSupported()
         if (!supportInfo.isSupported) {
             log.error(supportInfo.error)
@@ -108,6 +110,10 @@ class Runner {
         throwable.printStackTrace(new PrintWriter(sw))
 
         sw.toString()
+    }
+
+    private void finishScrapingOnGracefulShutdown() {
+        Runtime.addShutdownHook { scraper.finishScraping() }
     }
 
 }

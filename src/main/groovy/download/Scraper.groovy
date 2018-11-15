@@ -46,7 +46,6 @@ class Scraper {
         if (!isMagnetLink) {
             downloadedTorrentFileDetector = new DownloadedTorrentFileDetector(browserDownloadDirectoryPath, maxTimeToDownload)
         }
-
     }
 
     String obtainTorrentIfPublished() {
@@ -147,7 +146,8 @@ class Scraper {
     }
 
     void finishScraping() {
-        browser.close()
+        browser?.close()
+        browser = null
     }
 
     void waitForCaptchaFill(Integer millisToFill) {
@@ -179,7 +179,5 @@ class Scraper {
             captchaAlertDiv.innerHTML = '${message}';
         """)
     }
-
-
 
 }
