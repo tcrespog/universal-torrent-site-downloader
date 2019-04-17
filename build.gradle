@@ -25,8 +25,8 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.15'
 
     compile 'org.gebish:geb-core:2.2'
-    compile 'org.seleniumhq.selenium:selenium-chrome-driver:3.14.0'
-    compile 'io.github.bonigarcia:webdrivermanager:3.0.0'
+    compile 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
+    compile 'io.github.bonigarcia:webdrivermanager:3.4.0'
 
     compile 'com.squareup.okhttp3:okhttp:3.11.0'
 
